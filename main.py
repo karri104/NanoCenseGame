@@ -53,20 +53,7 @@ def main():
             if player.skips == 0:
                 card = pick_card(game)
                 print("Whole card", card)
-                if card != ['Form a sustainability loop!\n']:
-                    player.add_card(card)
-                print("discard pile", player.discard_pile)
-                print("__________________________________________________________________________________________")
-                for part in card:
-                    print(part)
-                if card == ['You find a critical flaw in the commonly used CNT synthesis method. You have two options:', '\t1. Keeping this information to yourself can protect you from the next negative effect directed at you. When this effect triggers,', "\t   the next positive effect coming from a different player has no effect on you as they do not wish to share information with a team that doesn't share theirs.", '\t2. Revealing this information allows you to benefit from the next positive effect directed at another player.  \n']:
-                    print("----------")
-                    share = input("Share this information? Y/N:\n")
-                    if share == "Y":
-                        player.replicate = True
-                    else:
-                        player.immune = True
-                        player.selfish = True
+                # Add card function calls here
                 print("----------")
                 clear = input("Press enter to hide drawn card.\n")
                 os.system('cls')

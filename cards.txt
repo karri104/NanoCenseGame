@@ -1,44 +1,52 @@
 Form a sustainability loop!
 9
-Cleaning CNT production facilities lead to increased emissions, since it requires the use of solvents,\nwater and single use tissues and sponges. However, nonsufficient cleaning leads to higher concentrations of SWCNTs,\nwhich are a clear risk to worker's health.
+Diabetes
 2
-Different production methods produce different levels of SWCNT aerosols: laser ablation generates a more\ncompact aerosol that doesn't break into dangerously small pieces but is expensive. HiPCO (high-pressure carbon monoxide)\nprocess is cheaper but leads to less compact pieces of CNTs.
+Union strike
 2
-Your research discovers that raising the temperature of CNT production affects the length of the nanotubes.\nChoosing this card can raise your production temperature by x degrees C, which increases your CNT length by 1 block.\nIf you throw <3, competitors utilize this method before you and increase their CNT length by 1 block.
+Carcinogenicity
 2
-You find a critical flaw in the commonly used CNT synthesis method. You have two options:\n	1. Keeping this information to yourself can protect you from the next negative effect directed at you. When this effect triggers,\n	   the next positive effect coming from a different player has no effect on you as they do not wish to share information with a team that doesn't share theirs.\n	2. Revealing this information allows you to benefit from the next positive effect directed at another player.  
+007
 2
-Your company releases CNTs into natural water streams in the hopes of using their high surface area to\nabsorb and aggregate dangerous organic pollutants, fluorides, and organic pollutants.\nHowever, CNTs are nonbiodegradable and lipophilic, which poses the risk of bioaccumulation within the food chain.
+IPR
 2
-The current production volume of CNTs is small, and workers can reduce product loss efficiently.\nThe hype around CNTs has increased your capital and you want to increase your production volume.\nDo you rapidly increase your production to win over your competitors,\nor sustainably change your production rate? Fast changes lead to more product loss and more pollution.
+Regulations
 2
-Your competitors' CNTs are used in explosives detection. Adding certain dopants and vacancies allows for\nselective adsorption of dangerous analytes, which changes the electrical conductance of nanotubes.\nThese chemiresistive sensors are used in airports nationwide and are deemed to be safe.\nHowever, they are not as selective as advertised and a terror attack ensues.\nAny player (not you) with active CNT sensor cards is now sued for negligence and has their reputation ruined.\nThis results in the loss of x CNT blocks.
+Sweat analysis
 2
-Your company has developed a CNT based chemiresistive sensor, that can detect volatile organic compounds\nrelated to type two diabetes (for example methyl nitrate and toluene). This application has the opportunity to\nrevolutionize medicine. If you throw 5/6, big pharma will reward you with 5 CNT blocks.\nIf you throw below 5, you will get stuck in the research valley of death, and you cannot gain CNT blocks for 2 rounds.
+Critical flaw
 2
-CNTs are perhaps one of the least biodegradable man-made materials to exist.\nYour company is environmentally aware, and you decide to invest in enzymes that could break down CNTs.\nThis is, however, an expensive and possibly unproductive endeavor.
+Terrorism
 2
-Regulatory aspects, such as safety, disposal, handling and consumer exposure are unclear for CNTs as of now.\nIMAGO. Decide to show that you are green.
+Structural health monitoring
 2
-Greenwashing: You advertise your CNTs as having renewable abundant resource with all natural ingredients sourced locally.\nThis either increases your customer base or disappoints them, as your statement is wishy washy.
+Student recruitment
 2
-You are trying to be more hip and cool and down with the kids to get more investments from the young.\nOption A: you hire a social media person. Above 3 they make funny memes and appropriate content, you gain customers.\nOtherwise they make rude, suggestive memes and causes an X (Twitter) scandal.
+Recycling
 2
-Your company creates a CNT spray that kills bacteria due to the unique spiky shape of the nanomaterial.\nHowever, not enough research has been made about the effects that CNT aerosols have on bronchial cells.\nDo you sell your product to the commercial market, with the risk of increasing cancer?\nDo you sell to big companies, where exposure risk is small? Or do you withhold from this application all together?
+Material choices
 2
-Your company produces sensors containing both CNT based materials and conventional rare earth metals.\nYou have the power to switch to 100% CNT based sensors.\nReducing rare earth metal mining too fast however eliminates Yttria mining jobs from Malaysia,\nleading to increased poverty in the area. If you decide against rapid change,\nyou are going against your environmental values.
+X (Twitter)
 2
-Longer carbon nanotubes are better electrical conductors due to an increased density of states and more\nunoccupied energy states near the Fermi level as the tube length increases.\nGood conductivity is key for good chemiresistive sensors.\nHowever, producing these sensors produces a risk:\nCNTs with higher aspect ratios (length/diameter) are significantly more toxic.
+Greenwashing
 2
-Your company decided to recycle scrap CNTs made in sensor production and use them as a reinforcing agent\nin plastic to make a highly technical 3D-nanocomposite material.\nThe EROEI (energy returned from energy invested) of your process has increased,\nbut your nanocomposite material is hard to recycle and does not biodegrade.
+Temperature
 2
-For chemiresistive sensors, it is necessary to have highly conductive CNT-nanotubes. Among all types of CNT,\nArmchair CNTs are the only ones that exhibit metallic conductivity.\nIf you aim to enhance your local community and economy,\nyou have the option to hire numerous enthusiastic young undergraduates who can have a significant positive impact on the economy.\nHowever, there is a risk that they are useless and careless and only able to generate zig-zag CNTs.\nAlternatively, you can consider hiring a doctoral student who is well-versed in the subject matter, with the same budget. 
+Increased production
 2
-Your company is developing CNT nanosensors that measure volatile organic compounds from breath in order todiagnose type 2 diabetes.\nHowever, your sensors are tuned for a specific set of patients,western young white men.\nAccording to the GoNano-project, that works on social governance of nanotechnologies,\nproduct customisation is a big problem with nanotechnology.\nYou can try to improve your product and make it work reliably for all sorts of people,\nbut it will take longer to take your product to the market (competitors!).\nOfcourse there is a risk that poorly tuned sensors could give false negatives to some minorities,\nwhich is baaaaaaad (if you do not want to fix it).
+Water pollution
 2
-Structural health monitoring (SHM) technology has the potential to track concrete conditions on heavily trafficked roads.\nAn interesting approach would involve utilizing cement-based sensors modified with carbon nanotubes (CNTs),\nwhich exhibit a piezoelectric reaction to strain, displacements, and stresses.\nHowever, a potential drawback is that as vehicles deteriorate the road surface,\nCNTs may be released into the environment, potentially causing ecological issues.
+Cleaning
 2
-Mycotoxins are toxic metabolites produced by fungi when food becomes moldy.\nCarbon nanotubes could be used in electrochemical enzyme biosensors to detect these toxins in foodstuff packaging.\nThis is due to CNTs enhancing the electrochemical reactivity of important biomolecules and improving electron transfer reactions of enzymes.\nThere are risks however; the sensors might not work and could lead to unfortunate situations.\nIn addition to this, having CNTs close to food packaging might be a health risk even in itself.
+Aerosols
 2
-You find a critical flaw in the commonly used CNT synthesis method. You have two options:\n	1. Keeping this information to yourself can protect you from the next negative effect directed at you.\n	   When this effect triggers, the next positive effect coming from a different player has no effect on you\n	   as they do not wish to share information with a team that doesn't share theirs.\n	1. Revealing this information allows you to benefit from the next positive effect directed at another player.\n	   Choosing the option to hide or reveal makes you unable to benefit from the effect of the other option.
+Enzymes
+2
+CNT spray
+2
+CNT Length
+2
+Mycotoxins
+2
+Customization
 2
