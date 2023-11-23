@@ -4,9 +4,8 @@ from players import Game, Player
 
 
 def parse_file(filename, game):
-    cards = {}
+    cards = []
     card_count = 0
-    invalid_ids = []
     f = open(filename, "r")
     idea = f.readline()
     if idea == "":
@@ -17,29 +16,20 @@ def parse_file(filename, game):
         i = 1
         while idea != [] and duplicates != "":
             duplicates = int(duplicates)
-            if duplicates == 0:
-                invalid_ids.append(i)
+            for i in range(0, duplicates):
+                game.cards.append(parts)
             parts = idea.split("\\n")
-            cards[i] = [parts, duplicates]
-            card_count += duplicates
             idea = f.readline()
             duplicates = f.readline()
             i += 1
-    game.cards = cards
-    game.card_count = card_count
-    game.invalid_ids = invalid_ids
+    game.card_count = len(game.cards)
 
 
 def pick_card(game):
-    card_id = random.randint(1, len(game.cards))
-    while card_id in game.invalid_ids:
-        card_id = random.randint(1, len(game.cards))
-    card = game.cards[card_id]
-    if card[1] != 0:
-        card[1] -= 1
-        game.card_count -= 1
-        if card[1] == 0:
-            game.invalid_ids.append(card_id)
+    i = random.randint(0, len(game.cards) - 1)
+    card = game.cards[i]
+    del game.cards[i]
+    game.card_count -= 1
     return card
 
 def main():
@@ -52,20 +42,25 @@ def main():
 
     filename = input("Give name of file containing card info:\n")
     parse_file(filename, game)
-
+    print(game.cards)
     draw = input("Press enter to draw a card.\n")
     while draw == "" and game.card_count > 0:
-        card = pick_card(game)
-        print("__________________________________________________________________________________________")
-        for part in card[0]:
-            print(part)
-        print("----------")
-        clear = input("Press enter to hide drawn card.\n")
-        os.system('cls')
-        print("----------")
-        print(f"Cards left in the deck: {game.card_count}\n")
-        print("__________________________________________________________________________________________")
-        draw = input("Press enter to draw another card.\n")
+        for player in game.players:
+            card = pick_card(game)
+            print("Whole card", card)
+            if card[0] != "Form a sustainability loop!\n":
+                player.add_card(card)
+            print("discard pile", player.discard_pile)
+            print("__________________________________________________________________________________________")
+            for part in card:
+                print(part)
+            print("----------")
+            clear = input("Press enter to hide drawn card.\n")
+            os.system('cls')
+            print("----------")
+            print(f"Cards left in the deck: {game.card_count}\n")
+            print("__________________________________________________________________________________________")
+            draw = input("Press enter to draw another card.\n")
 
 if __name__ == "__main__":
     main()

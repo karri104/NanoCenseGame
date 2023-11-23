@@ -1,21 +1,21 @@
 Form a sustainability loop!
-0
+9
 Cleaning CNT production facilities lead to increased emissions, since it requires the use of solvents,\nwater and single use tissues and sponges. However, nonsufficient cleaning leads to higher concentrations of SWCNTs,\nwhich are a clear risk to worker's health.
-0
+2
 Different production methods produce different levels of SWCNT aerosols: laser ablation generates a more\ncompact aerosol that doesn't break into dangerously small pieces but is expensive. HiPCO (high-pressure carbon monoxide)\nprocess is cheaper but leads to less compact pieces of CNTs.
-0
+2
 Your research discovers that raising the temperature of CNT production affects the length of the nanotubes.\nChoosing this card can raise your production temperature by x degrees C, which increases your CNT length by 1 block.\nIf you throw <3, competitors utilize this method before you and increase their CNT length by 1 block.
-0
+2
 You find a critical flaw in the commonly used CNT synthesis method. You have two options:\n	1. Keeping this information to yourself can protect you from the next negative effect directed at you. When this effect triggers,\n	   the next positive effect coming from a different player has no effect on you as they do not wish to share information with a team that doesn't share theirs.\n	2. Revealing this information allows you to benefit from the next positive effect directed at another player.  
-0
+2
 Your company releases CNTs into natural water streams in the hopes of using their high surface area to\nabsorb and aggregate dangerous organic pollutants, fluorides, and organic pollutants.\nHowever, CNTs are nonbiodegradable and lipophilic, which poses the risk of bioaccumulation within the food chain.
-0
+2
 The current production volume of CNTs is small, and workers can reduce product loss efficiently.\nThe hype around CNTs has increased your capital and you want to increase your production volume.\nDo you rapidly increase your production to win over your competitors,\nor sustainably change your production rate? Fast changes lead to more product loss and more pollution.
-0
+2
 Your competitors' CNTs are used in explosives detection. Adding certain dopants and vacancies allows for\nselective adsorption of dangerous analytes, which changes the electrical conductance of nanotubes.\nThese chemiresistive sensors are used in airports nationwide and are deemed to be safe.\nHowever, they are not as selective as advertised and a terror attack ensues.\nAny player (not you) with active CNT sensor cards is now sued for negligence and has their reputation ruined.\nThis results in the loss of x CNT blocks.
-0
+2
 Your company has developed a CNT based chemiresistive sensor, that can detect volatile organic compounds\nrelated to type two diabetes (for example methyl nitrate and toluene). This application has the opportunity to\nrevolutionize medicine. If you throw 5/6, big pharma will reward you with 5 CNT blocks.\nIf you throw below 5, you will get stuck in the research valley of death, and you cannot gain CNT blocks for 2 rounds.
-0
+2
 CNTs are perhaps one of the least biodegradable man-made materials to exist.\nYour company is environmentally aware, and you decide to invest in enzymes that could break down CNTs.\nThis is, however, an expensive and possibly unproductive endeavor.
 2
 Regulatory aspects, such as safety, disposal, handling and consumer exposure are unclear for CNTs as of now.\nIMAGO. Decide to show that you are green.
