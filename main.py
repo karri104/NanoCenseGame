@@ -1,6 +1,7 @@
 import random
 import os
 from players import Game, Player
+import cards
 
 
 def parse_file(filename, game):
