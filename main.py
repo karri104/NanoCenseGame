@@ -12,14 +12,12 @@ def parse_file(filename, game):
     if idea == "":
         print("Empty file given")
     else:
-        parts = idea.split("\\n")
         duplicates = f.readline()
         i = 1
         while idea != [] and duplicates != "":
             duplicates = int(duplicates)
             for i in range(0, duplicates):
-                game.cards.append(parts)
-            parts = idea.split("\\n")
+                game.cards.append(idea.strip("\n"))
             idea = f.readline()
             duplicates = f.readline()
             i += 1
@@ -44,15 +42,19 @@ def main():
 
     filename = input("Give name of file containing card info:\n")
     parse_file(filename, game)
-    print(game.cards)
-    draw = input("Press enter to draw a card.\n")
+    print("__________________________________________________________________________________________")
+    print("First player:", game.players[0].name)
+    draw = input("Press enter to start game:\n")
     while draw == "" and game.card_count > 0:
-        print("hi")
         for player in game.players:
-            print("Player name:", player.name)
             if player.skips == 0:
+                print("Current player:", player.name)
+                draw = input("Press enter to draw a card.\n")
+                print("----------")
                 card = pick_card(game)
-                print("Whole card", card)
+                print("Card:", card)
+                player.add_card(card)
+                print(f"Discard_pile for player: {player.name}:\n{player.discard_pile}")
                 # Add card function calls here
                 print("----------")
                 clear = input("Press enter to hide drawn card.\n")
@@ -63,9 +65,8 @@ def main():
             else:
                 player.skips -= 1
                 print("----------")
-                print(f"Your next {player.skips} will be skipped")
+                print(f"Your next {player.skips} turns will be skipped")
                 print("----------")
-        draw = input("Press enter to draw another card.\n")
 
 if __name__ == "__main__":
     main()
