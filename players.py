@@ -20,6 +20,7 @@ class Player:
     def __init__(self,):
         self.name = ""
         self.discard_pile = []
+        self.loop = []
         self.cnts = 0
         self.immune = False
         self.selfish = False

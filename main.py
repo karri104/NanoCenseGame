@@ -1,7 +1,6 @@
-import random
 import os
 from players import Game, Player
-import cards
+from cards import *
 
 
 def parse_file(filename, game):
@@ -53,9 +52,72 @@ def main():
                 print("----------")
                 card = pick_card(game)
                 print("Card:", card)
-                player.add_card(card)
-                print(f"Discard_pile for player: {player.name}:\n{player.discard_pile}")
-                # Add card function calls here
+                if card == "Sustainability loop":
+                    sustainability_loop(game, player)
+                else:
+                    player.add_card(card)
+                    if card == "Diabetes":
+                        diabetes(player)
+                    if card == "Union strike":
+                        union_strike(game, player)
+                    if card == "Carcinogenicity":
+                        carcinogenicity(game, player)
+                    if card == "007":
+                        bond(game, player)
+                    if card == "IPR":
+                        ipr(game, player)
+                    if card == "Regulations":
+                        regulations(game, player)
+                    if card == "Sweat analysis":
+                        sweat_analysis(game, player)
+                    if card == "Critical flaw":
+                        critical_flaw(game, player)
+                    if card == "Terrorism":
+                        terrorism(game, player)
+                    if card == "Structural health monitoring":
+                        structural_health_monitoring(game, player)
+                    if card == "Student recruitment":
+                        student_recruitment(game, player)
+                    if card == "Recycling":
+                        recycling(game, player)
+                    if card == "Material choices":
+                        material_choices(game, player)
+                    if card == "X (Twitter)":
+                        twitter(game, player)
+                    if card == "Greenwashing":
+                        greenwashing(game, player)
+                    if card == "Temperature":
+                        temperature(game, player)
+                    if card == "Increased production":
+                        increased_production(game, player)
+                    if card == "Water pollution":
+                        water_pollution(game, player)
+                    if card == "Cleaning":
+                        cleaning(game, player)
+                    if card == "Aerosols":
+                        aerosols(game, player)
+                    if card == "Enzymes":
+                        enzymes(game, player)
+                    if card == "CNT Spray":
+                        cnt_spray(game, player)
+                    if card == "CNT Length":
+                        cnt_length(game, player)
+                    if card == "Mycotoxins":
+                        mycotoxins(game, player)
+                    if card == "Customization":
+                        customization(game, player)
+                    if card == "Gender equality":
+                        gender_equality(game, player)
+                    if card == "Bulletproof vests":
+                        bulletproof_vests(game, player)
+                    if card == "Fossil fuels":
+                        fossil_fuelsgame, player()
+                    if card == "Production location":
+                        production_location(game, player)
+                    if card == "Budget":
+                        budget(game, player)
+                print(f"Discard_pile for {player.name}:\n{player.discard_pile}")
+                print(f"Sustainability loop for {player.name}:\n{player.loop}")
                 print("----------")
                 clear = input("Press enter to hide drawn card.\n")
                 os.system('cls')
