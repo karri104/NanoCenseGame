@@ -17,13 +17,20 @@ class Game:
 
 
 class Player:
-    def __init__(self, name):
+    def __init__(self,):
         self.name = ""
         self.discard_pile = []
         self.cnts = 0
+        self.immune = False
+        self.selfish = False
+        self.replicate = False
+        self.skips = 0
 
     def add_card(self, card):
         self.discard_pile.append(card)
 
     def change_cnts(self, change):
         self.cnts += change
+
+    def change_name(self, name):
+        self.name = name
