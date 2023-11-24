@@ -2,6 +2,7 @@ from random import randint
 import os
 from players import Game, Player
 from cards import *
+import bot
 
 
 def parse_file(filename, game):
@@ -62,64 +63,93 @@ def main():
                     player.add_card(card)
                     if card == "Diabetes":
                         diabetes(game, player)
+                        bot.diabetes(game, player)
                     if card == "Union strike":
                         union_strike(game, player)
+                        bot.union_strike(game, player)
                     if card == "Carcinogenicity":
                         carcinogenicity(game, player)
+                        bot.carcinogenicity(game, player)
                     if card == "007":
                         bond(game, player)
+                        bot.bond(game, player)
                     if card == "IPR":
                         ipr(game, player)
+                        bot.ipr(game, player)
                     if card == "Regulations":
                         regulations(game, player)
+                        bot.regulations(game, player)
                     if card == "Sweat analysis":
                         sweat_analysis(game, player)
+                        bot.sweat_analysis(game, player)
                     if card == "Critical flaw":
                         critical_flaw(player)
+                        bot.critical_flaw(game, player)
                     if card == "Terrorism":
                         terrorism(game, player)
                     if card == "Structural health monitoring":
                         structural_health_monitoring(game, player)
+                        bot.structural_health_monitoring(game, player)
                     if card == "Student recruitment":
                         student_recruitment(game, player)
+                        bot.student_recruitment(game, player)
                     if card == "Recycling":
                         recycling(player)
+                        bot.recycling(game, player)
                     if card == "Material choices":
                         material_choices(player)
+                        bot.material_choices(game, player)
                     if card == "X (Twitter)":
                         twitter(game, player)
+                        bot.twitter(game, player)
                     if card == "Greenwashing":
                         greenwashing(game, player)
+                        bot.greenwashing(game, player)
                     if card == "Temperature":
                         temperature(game, player)
+                        bot.temperature(game, player)
                     if card == "Increased production":
                         increased_production(game, player)
+                        bot.increased_production(game, player)
                     if card == "Water pollution":
                         water_pollution(game, player)
+                        bot.water_pollution(game, player)
                     if card == "Cleaning":
                         cleaning(game, player)
+                        bot.cleaning(game, player)
                     if card == "Aerosols":
                         aerosols(game, player)
+                        bot.aerosols(game, player)
                     if card == "Enzymes":
                         enzymes(game, player)
+                        bot.enzymes(game, player)
                     if card == "CNT Spray":
                         cnt_spray(game, player)
+                        bot.cnt_spray(game, player)
                     if card == "CNT Length":
                         cnt_length(game, player)
+                        bot.cnt_length(game, player)
                     if card == "Mycotoxins":
                         mycotoxins(game, player)
+                        bot.mycotoxins(game, player)
                     if card == "Customization":
                         customization(game, player)
+                        bot.customization(game, player)
                     if card == "Gender equality":
                         gender_equality(game, player)
+                        bot.gender_equality(game, player)
                     if card == "Bulletproof vests":
                         bulletproof_vests(game, player)
+                        bot.bulletproof_vests(game, player)
                     if card == "Fossil fuels":
                         fossil_fuels(game, player)
+                        bot.fossil_fuels(game, player)
                     if card == "Production location":
                         production_location(game, player)
+                        bot.production_location(game, player)
                     if card == "Budget":
                         budget(game, player)
+                        bot.budget(game, player)
             else:
                 player.skips -= 1
                 print("----------")

@@ -47,7 +47,7 @@ CNT spray
 CNT Length
 2
 Mycotoxins
-3
+2
 Customization
 2
 Gender equality
@@ -59,4 +59,4 @@ Fossil fuels
 Production location
 2
 Budget
-2
+3
