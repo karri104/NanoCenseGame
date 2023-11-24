@@ -32,11 +32,12 @@ class Player:
     def __init__(self,):
         self.name = ""
         self.discard_pile = []
-        self.loop = []
+        self.sustainability.loop = []
         self.cnts = 0
         self.strike = 0
         self.immune = False
         self.replicate = False
+        self.loop = False
         self.skips = 0
 
     def add_card(self, card):

@@ -54,8 +54,8 @@ def main():
                 print("----------")
                 card = pick_card(game)
                 print("Card:", card)
-                if card == "Sustainability loop":
-                    sustainability_loop(game, player)
+                if card == "Sustainability loop" or player.loop:
+                    sustainability_loop(player)
                 else:
                     player.add_card(card)
                     if card == "Diabetes":
@@ -128,7 +128,7 @@ def main():
             game.check_cnts()
             print(f"Player {player.name} CNTs:", player.cnts)
             print(f"Discard_pile for {player.name}:\n{player.discard_pile}")
-            print(f"Sustainability loop for {player.name}:\n{player.loop}")
+            print(f"Sustainability loop for {player.name}:\n{player.sustainability_loop}")
             print("----------")
             clear = input("Press enter to hide drawn card.\n")
             os.system('cls')
