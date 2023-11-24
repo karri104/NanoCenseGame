@@ -1,3 +1,4 @@
+from random import randint
 import os
 from players import Game, Player
 from cards import *
@@ -24,7 +25,7 @@ def parse_file(filename, game):
 
 
 def pick_card(game):
-    i = random.randint(0, len(game.cards) - 1)
+    i = randint(0, len(game.cards) - 1)
     card = game.cards[i]
     del game.cards[i]
     game.card_count -= 1
@@ -47,6 +48,7 @@ def main():
     while draw == "" and game.card_count > 0:
         for player in game.players:
             if player.skips == 0:
+                game.check_replicates()
                 print("Current player:", player.name)
                 draw = input("Press enter to draw a card.\n")
                 print("----------")
@@ -57,7 +59,7 @@ def main():
                 else:
                     player.add_card(card)
                     if card == "Diabetes":
-                        diabetes(player)
+                        diabetes(game, player)
                     if card == "Union strike":
                         union_strike(game, player)
                     if card == "Carcinogenicity":
@@ -71,7 +73,7 @@ def main():
                     if card == "Sweat analysis":
                         sweat_analysis(game, player)
                     if card == "Critical flaw":
-                        critical_flaw(game, player)
+                        critical_flaw(player)
                     if card == "Terrorism":
                         terrorism(game, player)
                     if card == "Structural health monitoring":
@@ -79,9 +81,9 @@ def main():
                     if card == "Student recruitment":
                         student_recruitment(game, player)
                     if card == "Recycling":
-                        recycling(game, player)
+                        recycling(player)
                     if card == "Material choices":
-                        material_choices(game, player)
+                        material_choices(player)
                     if card == "X (Twitter)":
                         twitter(game, player)
                     if card == "Greenwashing":
@@ -111,24 +113,28 @@ def main():
                     if card == "Bulletproof vests":
                         bulletproof_vests(game, player)
                     if card == "Fossil fuels":
-                        fossil_fuelsgame, player()
+                        fossil_fuels(game, player)
                     if card == "Production location":
                         production_location(game, player)
                     if card == "Budget":
                         budget(game, player)
-                print(f"Discard_pile for {player.name}:\n{player.discard_pile}")
-                print(f"Sustainability loop for {player.name}:\n{player.loop}")
-                print("----------")
-                clear = input("Press enter to hide drawn card.\n")
-                os.system('cls')
-                print("----------")
-                print(f"Cards left in the deck: {game.card_count}\n")
-                print("__________________________________________________________________________________________")
             else:
                 player.skips -= 1
                 print("----------")
                 print(f"Your next {player.skips} turns will be skipped")
                 print("----------")
+            if player.strike:
+                player.strike -= 1
+            game.check_cnts()
+            print(f"Player {player.name} CNTs:", player.cnts)
+            print(f"Discard_pile for {player.name}:\n{player.discard_pile}")
+            print(f"Sustainability loop for {player.name}:\n{player.loop}")
+            print("----------")
+            clear = input("Press enter to hide drawn card.\n")
+            os.system('cls')
+            print("----------")
+            print(f"Cards left in the deck: {game.card_count}\n")
+            print("__________________________________________________________________________________________")
 
 if __name__ == "__main__":
     main()
