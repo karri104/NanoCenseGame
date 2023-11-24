@@ -55,6 +55,8 @@ def main():
                 card = pick_card(game)
                 print("Card:", card)
                 if card == "Sustainability loop" or player.loop:
+                    if player.loop:
+                        player.add_card(card)
                     sustainability_loop(player)
                 else:
                     player.add_card(card)

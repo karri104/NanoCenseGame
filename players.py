@@ -32,7 +32,7 @@ class Player:
     def __init__(self,):
         self.name = ""
         self.discard_pile = []
-        self.sustainability.loop = []
+        self.sustainability_loop = []
         self.cnts = 0
         self.strike = 0
         self.immune = False

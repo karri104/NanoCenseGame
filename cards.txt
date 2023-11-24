@@ -1,5 +1,5 @@
-Sustainability loop
-9
+Form a sustainability loop!
+7
 Diabetes
 2
 Union strike
@@ -15,7 +15,7 @@ Regulations
 Sweat analysis
 2
 Critical flaw
-2
+3
 Terrorism
 2
 Structural health monitoring
@@ -42,12 +42,12 @@ Aerosols
 2
 Enzymes
 2
-CNT Spray
+CNT spray
 2
 CNT Length
 2
 Mycotoxins
-2
+3
 Customization
 2
 Gender equality

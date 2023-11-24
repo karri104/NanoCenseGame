@@ -4,13 +4,17 @@ from random import randint
 def sustainability_loop(player):
     pile_size = len(player.discard_pile)
     num = randint(1, 10000)
+    print(pile_size)
     if pile_size >= 3 and len(player.sustainability_loop) == 0:
         chances = [3500, 5000, 7500, 8750, 9375, 10000]
-        probability = chances[pile_size - 1]
+        if pile_size >= 8:
+            probability = 10000
+        else:
+            probability = chances[pile_size - 3]
         if num <= probability:
             player.loop = False
             used_cards = randint(3, pile_size)
-            for used_card in range(0, used_cards):
+            for used_card in range(0, used_cards - 1):
                 card_index = randint(0, len(player.discard_pile) - 1)
                 card = player.discard_pile[card_index]
                 del player.discard_pile[card_index]
@@ -20,11 +24,14 @@ def sustainability_loop(player):
             player.loop = True
     elif pile_size >= 1 and len(player.sustainability_loop) >= 3:
         chances = [50000, 7500, 8750, 9375, 10000]
-        probability = chances[pile_size - 1]
+        if pile_size >= 5:
+            probability = 10000
+        else:
+            probability = chances[pile_size]
         if num <= probability:
             player.loop = False
             used_cards = randint(1, pile_size)
-            for used_card in range(0, used_cards):
+            for used_card in range(0, used_cards - 1):
                 card_index = randint(0, len(player.discard_pile) - 1)
                 card = player.discard_pile[card_index]
                 del player.discard_pile[card_index]
