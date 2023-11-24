@@ -2,7 +2,8 @@ from random import randint
 
 
 def sustainability_loop(game, player):
-    pass
+    chances = [3500, 5000, 7500, 8750, 9375, 10000]
+    num = randint(1, 10000)
 
 
 def diabetes(game, player):
@@ -667,9 +668,48 @@ def enzymes(game, player):
 def cnt_spray(game, player):
     choice = input("A or B?\n")
     if choice == "A":
-        pass
+        num = randint(1, 20)
+        if num >= 10:
+            if not player.check_strike():
+                player.cnts += 2
+                if len(game.replicates) != 0:
+                    for replicate in game.replicates:
+                        if not replicate.check_strike():
+                            replicate.cnts += 2
+                        else:
+                            replicate.cnts += int(2 / 2)
+                    game.replicates = []
+            else:
+                player.cnts += int(2 / 2)
+                if len(game.replicates) != 0:
+                    for replicate in game.replicates:
+                        if not replicate.check_strike():
+                            replicate.cnts += int(2 / 2)
+                        else:
+                            replicate.cnts += int(2 / 4)
+                    game.replicates = []
+        else:
+            if not player.check_immunity():
+                player.cnts -= 3
     else:
-        pass
+        if not player.check_strike():
+            player.cnts += 1
+            if len(game.replicates) != 0:
+                for replicate in game.replicates:
+                    if not replicate.check_strike():
+                        replicate.cnts += 1
+                    else:
+                        replicate.cnts += int(1 / 2)
+                game.replicates = []
+        else:
+            player.cnts += int(1 / 2)
+            if len(game.replicates) != 0:
+                for replicate in game.replicates:
+                    if not replicate.check_strike():
+                        replicate.cnts += int(1 / 2)
+                    else:
+                        replicate.cnts += int(1 / 4)
+                game.replicates = []
 
 
 def cnt_length(game, player):
@@ -702,9 +742,48 @@ def cnt_length(game, player):
 def mycotoxins(game, player):
     choice = input("A or B?\n")
     if choice == "A":
-        pass
+        num = randint(1, 20)
+        if num >= 14:
+            if not player.check_strike():
+                player.cnts += 3
+                if len(game.replicates) != 0:
+                    for replicate in game.replicates:
+                        if not replicate.check_strike():
+                            replicate.cnts += 3
+                        else:
+                            replicate.cnts += int(3 / 2)
+                    game.replicates = []
+            else:
+                player.cnts += int(3 / 2)
+                if len(game.replicates) != 0:
+                    for replicate in game.replicates:
+                        if not replicate.check_strike():
+                            replicate.cnts += int(3 / 2)
+                        else:
+                            replicate.cnts += int(3 / 4)
+                    game.replicates = []
+        else:
+            if not player.check_immunity():
+                player.cnts -= 2
     else:
-        pass
+        if not player.check_strike():
+            player.cnts += 1
+            if len(game.replicates) != 0:
+                for replicate in game.replicates:
+                    if not replicate.check_strike():
+                        replicate.cnts += 1
+                    else:
+                        replicate.cnts += int(1 / 2)
+                game.replicates = []
+        else:
+            player.cnts += int(1 / 2)
+            if len(game.replicates) != 0:
+                for replicate in game.replicates:
+                    if not replicate.check_strike():
+                        replicate.cnts += int(1 / 2)
+                    else:
+                        replicate.cnts += int(1 / 4)
+                game.replicates = []
 
 
 def customization(game, player):
