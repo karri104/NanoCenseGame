@@ -1,6 +1,26 @@
 from random import randint
 
 
+def give_cnts(game, player, cnts):
+    if not player.check_strike():
+        player.cnts += cnts
+        if len(game.replicates) != 0:
+            for replicate in game.replicates:
+                if not replicate.check_strike():
+                    replicate.cnts += cnts
+                else:
+                    replicate.cnts += int(cnts / 2)
+    else:
+        player.cnts += int(cnts / 2)
+        if len(game.replicates) != 0:
+            for replicate in game.replicates:
+                if not replicate.check_strike():
+                    replicate.cnts += int(cnts / 2)
+                else:
+                    replicate.cnts += int(cnts / 4)
+    game.replicates = []
+
+
 def sustainability_loop(player):
     pile_size = len(player.discard_pile)
     num = randint(1, 10000)
@@ -48,24 +68,7 @@ def diabetes(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 14:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
@@ -106,8 +109,8 @@ def carcinogenicity(game, player):
         for contestant in game.players:
             contestant.cnts -= 1
         if player.check_immunity():
-            # NOTE: DO NOT ADD REPLICANT TO THIS AS IT'S NOT ACTUALLY GIVING CNTS
-            # RATHER JUST GIVING BACK THE CNT TAKEN AWAY IN ABOVE FOR LOOP
+            # NOTE: DO NOT ADD REPLICANT OR STRIKE TO THIS AS IT'S NOT ACTUALLY GIVING
+            # CNTS RATHER JUST GIVING BACK THE CNT TAKEN AWAY IN ABOVE FOR LOOP
             player.cnts += 1
     else:
         num = randint(1, 20)
@@ -152,24 +155,7 @@ def ipr(game, player):
                         best = contestant.cnts
                         index = i
             game.players[index].cnts -= 2
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 1
@@ -183,24 +169,7 @@ def regulations(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 4:
-            if not player.check_strike():
-                player.cnts += 1
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 1
-                        else:
-                            replicate.cnts += int(1 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(1 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(1 / 2)
-                        else:
-                            replicate.cnts += int(1 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 1)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
@@ -214,46 +183,12 @@ def sweat_analysis(game, player):
     num = randint(1, 20)
     if choice == "A":
         if num >= 12:
-            if not player.check_strike():
-                player.cnts += 1
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 1
-                        else:
-                            replicate.cnts += int(1 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(1 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(1 / 2)
-                        else:
-                            replicate.cnts += int(1 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 1)
         else:
             pass
     else:
         if num >= 19:
-            if not player.check_strike():
-                player.cnts += 4
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 4
-                        else:
-                            replicate.cnts += int(4 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(4 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(4 / 2)
-                        else:
-                            replicate.cnts += int(4 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 4)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
@@ -272,47 +207,13 @@ def terrorism(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 4:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 4
                 player.skips += 2
     else:
-        if not player.check_strike():
-            player.cnts += 1
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 1
-                    else:
-                        replicate.cnts += int(1 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(1 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(1 / 2)
-                    else:
-                        replicate.cnts += int(1 / 4)
-                game.replicates = []
+        give_cnts(game, player, 1)
 
 
 def structural_health_monitoring(game, player):
@@ -320,24 +221,7 @@ def structural_health_monitoring(game, player):
     num = randint(1, 20)
     if choice == "A":
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
@@ -347,19 +231,7 @@ def structural_health_monitoring(game, player):
                 if competitor != player:
                     competitor.cnts -= 2
         else:
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 2
-                    else:
-                        replicate.cnts += int(2 / 2)
-                game.replicates = []
-            for contestant in game.players:
-                if contestant != player:
-                    if not contestant.check_strike():
-                        contestant.cnts += 2
-                    else:
-                        contestant.cnts += int(2 / 2)
+            give_cnts(game, player, 2)
 
 
 def student_recruitment(game, player):
@@ -367,47 +239,13 @@ def student_recruitment(game, player):
     num = randint(1, 20)
     if choice == "A":
         if num >= 11:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
     else:
         if num >= 5:
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 4
@@ -428,24 +266,7 @@ def twitter(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
@@ -458,24 +279,7 @@ def greenwashing(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
@@ -489,24 +293,7 @@ def temperature(game, player):
     num = randint(1, 20)
     if choice == "A":
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 1
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 1
-                        else:
-                            replicate.cnts += int(1 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(1 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(1 / 2)
-                        else:
-                            replicate.cnts += int(1 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 1)
         else:
             if not player.check_immunity():
                 player.cnts -= 1
@@ -536,46 +323,12 @@ def increased_production(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
     else:
-        if not player.check_strike():
-            player.cnts += 1
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 1
-                    else:
-                        replicate.cnts += int(1 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(1 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(1 / 2)
-                    else:
-                        replicate.cnts += int(1 / 4)
-                game.replicates = []
+        give_cnts(game, player, 1)
 
 
 def water_pollution(game, player):
@@ -583,24 +336,7 @@ def water_pollution(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 5
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 5
-                        else:
-                            replicate.cnts += int(5 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(5 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(5 / 2)
-                        else:
-                            replicate.cnts += int(5 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 5)
         else:
             if not player.check_immunity():
                 player.cnts -= 5
@@ -617,24 +353,7 @@ def cleaning(game, player):
                 player.cnts -= 1
     else:
         if num >= 19:
-            if not player.check_strike():
-                player.cnts += 1
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 1
-                        else:
-                            replicate.cnts += int(1 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(1 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(1 / 2)
-                        else:
-                            replicate.cnts += int(1 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 1)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
@@ -645,24 +364,7 @@ def aerosols(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 4:
-            if not player.check_strike():
-                player.cnts += 1
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 1
-                        else:
-                            replicate.cnts += int(1 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(1 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(1 / 2)
-                        else:
-                            replicate.cnts += int(1 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 1)
         else:
             if not player.check_immunity():
                 player.cnts -= 1
@@ -676,24 +378,7 @@ def enzymes(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num == 20:
-            if not player.check_strike():
-                player.cnts += 6
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 6
-                        else:
-                            replicate.cnts += int(6 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(6 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(6 / 2)
-                        else:
-                            replicate.cnts += int(6 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 6)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
@@ -707,69 +392,18 @@ def cnt_spray(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
     else:
-        if not player.check_strike():
-            player.cnts += 1
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 1
-                    else:
-                        replicate.cnts += int(1 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(1 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(1 / 2)
-                    else:
-                        replicate.cnts += int(1 / 4)
-                game.replicates = []
+        give_cnts(game, player, 1)
 
 
 def cnt_length(game, player):
     choice = input("A or B?\n")
     if choice == "A":
-        if not player.check_strike():
-            player.cnts += 2
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 2
-                    else:
-                        replicate.cnts += int(2 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(2 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(2 / 2)
-                    else:
-                        replicate.cnts += int(2 / 4)
-                game.replicates = []
+        give_cnts(game, player, 2)
         player.skips += 1
     else:
         if not player.check_immunity():
@@ -781,69 +415,18 @@ def mycotoxins(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 14:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
     else:
-        if not player.check_strike():
-            player.cnts += 1
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 1
-                    else:
-                        replicate.cnts += int(1 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(1 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(1 / 2)
-                    else:
-                        replicate.cnts += int(1 / 4)
-                game.replicates = []
+        give_cnts(game, player, 1)
 
 
 def customization(game, player):
     choice = input("A or B?\n")
     if choice == "A":
-        if not player.check_strike():
-            player.cnts += 2
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 2
-                    else:
-                        replicate.cnts += int(2 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(2 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(2 / 2)
-                    else:
-                        replicate.cnts += int(2 / 4)
-                game.replicates = []
+        give_cnts(game, player, 2)
         player.skips += 1
     else:
         if not player.check_immunity():
@@ -855,46 +438,12 @@ def gender_equality(game, player):
     if choice == "A":
         num = randint(1, 20)
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
     if choice == "B":
-        if not player.check_strike():
-            player.cnts += 1
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += 1
-                    else:
-                        replicate.cnts += int(1 / 2)
-                game.replicates = []
-        else:
-            player.cnts += int(1 / 2)
-            if len(game.replicates) != 0:
-                for replicate in game.replicates:
-                    if not replicate.check_strike():
-                        replicate.cnts += int(1 / 2)
-                    else:
-                        replicate.cnts += int(1 / 4)
-                game.replicates = []
+        give_cnts(game, player, 1)
 
 
 def bulletproof_vests(game, player):
@@ -910,64 +459,13 @@ def bulletproof_vests(game, player):
             if not player.check_immunity():
                 player.cnts -= 1
         elif 11 <= num <= 15:
-            if not player.check_strike():
-                player.cnts += 1
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 1
-                        else:
-                            replicate.cnts += int(1 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(1 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(1 / 2)
-                        else:
-                            replicate.cnts += int(1 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 1)
         else:
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
 
 
 def fossil_fuels(game, player):
-    if not player.check_strike():
-        player.cnts += 1
-        if len(game.replicates) != 0:
-            for replicate in game.replicates:
-                if not replicate.check_strike():
-                    replicate.cnts += 1
-                else:
-                    replicate.cnts += int(1 / 2)
-            game.replicates = []
-    else:
-        player.cnts += int(1 / 2)
-        if len(game.replicates) != 0:
-            for replicate in game.replicates:
-                if not replicate.check_strike():
-                    replicate.cnts += int(1 / 2)
-                else:
-                    replicate.cnts += int(1 / 4)
-            game.replicates = []
+    give_cnts(game, player, 1)
 
 
 def production_location(game, player):
@@ -975,47 +473,13 @@ def production_location(game, player):
     num = randint(1, 20)
     if choice == "A":
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 2
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 2
-                        else:
-                            replicate.cnts += int(2 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(2 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(2 / 2)
-                        else:
-                            replicate.cnts += int(2 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
     else:
         if num >= 10:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= 4
@@ -1036,24 +500,7 @@ def budget(game, player):
                 contestant.cnts += int(1 / 2)
     else:
         if num >= 17:
-            if not player.check_strike():
-                player.cnts += 3
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += 3
-                        else:
-                            replicate.cnts += int(3 / 2)
-                    game.replicates = []
-            else:
-                player.cnts += int(3 / 2)
-                if len(game.replicates) != 0:
-                    for replicate in game.replicates:
-                        if not replicate.check_strike():
-                            replicate.cnts += int(3 / 2)
-                        else:
-                            replicate.cnts += int(3 / 4)
-                    game.replicates = []
+            give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
                 player.cnts -= int(player.cnts / 3)
