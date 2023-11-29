@@ -160,7 +160,7 @@ def main():
                     card = pick_card(game)
                     print("Card:", card)
                     if card == "Sustainability loop" or player.loop:
-                        if player.loop:
+                        if player.loop and card != "Sustainability loop":
                             player.add_card(card)
                         sustainability_loop(player)
                     else:

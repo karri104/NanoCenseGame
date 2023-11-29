@@ -37,8 +37,8 @@ def sustainability_loop(player):
             for used_card in range(0, used_cards - 1):
                 card_index = randint(0, len(player.discard_pile) - 1)
                 card = player.discard_pile[card_index]
-                del player.discard_pile[card_index]
                 player.sustainability_loop.append(card)
+                del player.discard_pile[card_index]
         else:
             print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
             player.loop = True
@@ -54,8 +54,8 @@ def sustainability_loop(player):
             for used_card in range(0, used_cards - 1):
                 card_index = randint(0, len(player.discard_pile) - 1)
                 card = player.discard_pile[card_index]
-                del player.discard_pile[card_index]
                 player.sustainability_loop.append(card)
+                del player.discard_pile[card_index]
         else:
             print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
             player.loop = True
