@@ -1,6 +1,6 @@
 from random import randint
 
-
+# Responsible for distributing cnts to players depending on strikes and replicates.
 def give_cnts(game, player, cnts):
     if not player.check_strike():
         player.cnts += cnts
@@ -21,19 +21,26 @@ def give_cnts(game, player, cnts):
     game.replicates = []
 
 
+# Randomly creates sustainability loops depending on current discard_pile size.
 def sustainability_loop(player):
-    pile_size = len(player.discard_pile)
+    # Generate random number to be used in calculating successes
     num = randint(1, 10000)
-    print(pile_size)
-    if pile_size >= 3 and len(player.sustainability_loop) == 0:
+    # If no sustainability loop exists yet
+    if len(player.discard_pile) >= 3 and len(player.sustainability_loop) == 0:
+        # Percent thresholds for success depending on pile_size. 100 = 1%
+        # e.g. 3500 means 35% of the time making a sustainability loop succeeds when discard_pile
+        # has exactly 3 cards
         chances = [3500, 5000, 7500, 8750, 9375, 10000]
-        if pile_size >= 8:
+        # Creating a sustainability loop always works when there are at least 8 cards in discard_pile
+        if len(player.discard_pile) >= 8:
             probability = 10000
         else:
-            probability = chances[pile_size - 3]
+            probability = chances[len(player.discard_pile) - 3]
+        # If loop generation is successful, move a random amount of cards from discard_pile to sustainability_loop
+        # Skip a turn otherwise.
         if num <= probability:
             player.loop = False
-            used_cards = randint(3, pile_size)
+            used_cards = randint(3, len(player.discard_pile))
             for used_card in range(0, used_cards - 1):
                 card_index = randint(0, len(player.discard_pile) - 1)
                 card = player.discard_pile[card_index]
@@ -42,15 +49,16 @@ def sustainability_loop(player):
         else:
             print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
             player.loop = True
-    elif pile_size >= 1 and len(player.sustainability_loop) >= 3:
+    # If a sustainability loop exists already. Works with same logic as normal creation. Just has different values.
+    elif len(player.discard_pile) >= 1 and len(player.sustainability_loop) >= 3:
         chances = [50000, 7500, 8750, 9375, 10000]
-        if pile_size >= 5:
+        if len(player.discard_pile) >= 5:
             probability = 10000
         else:
-            probability = chances[pile_size]
+            probability = chances[len(player.discard_pile)]
         if num <= probability:
             player.loop = False
-            used_cards = randint(1, pile_size)
+            used_cards = randint(1, len(player.discard_pile))
             for used_card in range(0, used_cards - 1):
                 card_index = randint(0, len(player.discard_pile) - 1)
                 card = player.discard_pile[card_index]
@@ -62,6 +70,12 @@ def sustainability_loop(player):
     else:
         print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
         player.loop = True
+
+#################################
+# Following functions contain the logic for different cards.
+# These do not reflect current game balancing changes.
+# Correct values and general functionality is outlined in Canva.
+#################################
 
 def diabetes(game, player):
     choice = input("A or B?\n")
