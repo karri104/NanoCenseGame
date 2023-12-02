@@ -86,7 +86,7 @@ def main():
                         if card == "Sweat analysis":
                             bot.sweat_analysis(game, player)
                         if card == "Critical flaw":
-                            bot.critical_flaw(game, player)
+                            bot.critical_flaw(player)
                         if card == "Terrorism":
                             bot.terrorism(game, player)
                         if card == "Structural health monitoring":

@@ -1,5 +1,6 @@
 from random import randint
 
+
 # Responsible for distributing cnts to players depending on strikes and replicates.
 def give_cnts(game, player, cnts):
     if not player.check_strike():
@@ -77,6 +78,7 @@ def sustainability_loop(player):
 # Correct values and general functionality is outlined in Canva.
 #################################
 
+
 def diabetes(game, player):
     choice = input("A or B?\n")
     if choice == "A":
@@ -85,7 +87,7 @@ def diabetes(game, player):
             give_cnts(game, player, 3)
         else:
             if not player.check_immunity():
-                player.cnts -= 2
+                player.cnts -= 3
     if choice == "B":
         if not player.check_immunity():
             player.cnts -= 1
@@ -97,7 +99,8 @@ def union_strike(game, player):
         if not player.check_immunity():
             player.cnts -= 3
         for contestant in game.players:
-            contestant.strike += 2
+            if contestant != player:
+                contestant.strike += 2
     else:
         num = randint(1, 20)
         if num >= 10:
@@ -108,9 +111,7 @@ def union_strike(game, player):
                     replicate.cnts += 1
                 game.replicates = []
             for contestant in game.players:
-                if contestant == player:
-                    pass
-                else:
+                if contestant != player:
                     if not contestant.check_strike():
                         contestant.cnts += 1
                     else:
@@ -182,8 +183,8 @@ def regulations(game, player):
     choice = input("A or B?\n")
     if choice == "A":
         num = randint(1, 20)
-        if num >= 4:
-            give_cnts(game, player, 1)
+        if num >= 14:
+            give_cnts(game, player, 2)
         else:
             if not player.check_immunity():
                 player.cnts -= 2
@@ -196,12 +197,12 @@ def sweat_analysis(game, player):
     choice = input("A or B?\n")
     num = randint(1, 20)
     if choice == "A":
-        if num >= 12:
+        if num >= 8:
             give_cnts(game, player, 1)
         else:
             pass
     else:
-        if num >= 19:
+        if num >= 15:
             give_cnts(game, player, 4)
         else:
             if not player.check_immunity():
@@ -245,7 +246,16 @@ def structural_health_monitoring(game, player):
                 if competitor != player:
                     competitor.cnts -= 2
         else:
-            give_cnts(game, player, 2)
+            if len(game.replicates) != 0:
+                for replicate in game.replicates:
+                    replicate.cnts += 1
+                game.replicates = []
+            for contestant in game.players:
+                if contestant != player:
+                    if not contestant.check_strike():
+                        contestant.cnts += 1
+                    else:
+                        contestant.cnts += int(1 / 2)
 
 
 def student_recruitment(game, player):
