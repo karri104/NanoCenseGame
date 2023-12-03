@@ -31,7 +31,7 @@ def union_strike(game, player):
             if contestant != player:
                 contestant.strike += 2
                 # Data used in analysis
-                contestant.strik_count += 2
+                contestant.strike_count += 2
     # Go for safer option B else
     else:
         if num >= 10:

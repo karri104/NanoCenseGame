@@ -24,7 +24,7 @@ def give_cnts(game, player, cnts):
 
 # Randomly creates sustainability loops depending on current discard_pile size.
 # Can currently only create one sustainability loop even though in the actual game you can create multiple
-def sustainability_loop(player):
+def sustainability_loop(player, game_type):
     # Generate random number to be used in calculating successes
     num = randint(1, 10000)
     # If no sustainability loop exists yet
@@ -49,7 +49,8 @@ def sustainability_loop(player):
                 player.sustainability_loop.append(card)
                 del player.discard_pile[card_index]
         else:
-            print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
+            if game_type == "M":
+                print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
             player.loop = True
     # If a sustainability loop exists already. Works with same logic as normal creation. Just has different values.
     elif len(player.discard_pile) >= 1 and len(player.sustainability_loop) >= 3:
@@ -67,10 +68,12 @@ def sustainability_loop(player):
                 player.sustainability_loop.append(card)
                 del player.discard_pile[card_index]
         else:
-            print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
+            if game_type == "M":
+                print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
             player.loop = True
     else:
-        print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
+        if game_type == "M":
+            print("Didn't succeed in making a sustainability loops.\nYour turn is skipped. Try again next turn")
         player.loop = True
 
 #################################

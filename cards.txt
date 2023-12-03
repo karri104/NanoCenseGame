@@ -1,62 +1,62 @@
-Form a sustainability loop!
-0
+Sustainability loop
+10
 Diabetes
-0
+2
 Union strike
-0
+2
 Carcinogenicity
-0
+2
 007
-0
+2
 IPR
-0
+2
 Regulations
-0
+2
 Sweat analysis
-0
+2
 Critical flaw
-0
+3
 Terrorism
 2
 Structural health monitoring
-0
+2
 Student recruitment
-0
+2
 Recycling
-0
+2
 Material choices
-0
+2
 X (Twitter)
-0
+2
 Greenwashing
-0
+2
 Temperature
-0
+2
 Increased production
-0
+2
 Water pollution
-0
+2
 Cleaning
-0
+2
 Aerosols
-0
+2
 Enzymes
-0
+2
 CNT spray
-0
+2
 CNT Length
 2
 Mycotoxins
-0
+3
 Customization
 2
 Gender equality
-0
+2
 Bulletproof vests
-0
+2
 Fossil fuels
-0
+2
 Production location
-0
+2
 Budget
-0
+2

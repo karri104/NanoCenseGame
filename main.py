@@ -34,19 +34,19 @@ def pick_card(game):
 # Compiles data into more human readable form
 def compile_data(compile_now, output_file, holder, player_count, end_reason, avg_points, avg_cnt_count, length, turns, avg_loop_card_count, avg_loop_count, avg_loop_length, avg_strikes, avg_skips):
     if compile_now:
-        output_file.write(f"Player count: {player_count}")
-        output_file.write(f"Game count: {holder.game_count}")
-        output_file.write(f"Games that ended from cards running out: {holder.out_of_cards}")
-        output_file.write(f"Games that ended from a player getting 12 CNT: {holder.winner}")
-        output_file.write(f"Average points per game: {holder.total_points / holder.game_count}")
-        output_file.write(f"Average CNTs per game: {holder.total_cnts / holder.game_count}")
-        output_file.write(f"Average game length: {holder.total_length / holder.game_count}min")
-        output_file.write(f"Average turns per game: {holder.total_turns / holder.game_count}")
-        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count / holder.game_count}")
-        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count / holder.game_count}")
-        output_file.write(f"Average sustainability loop length: {holder.total_loop_length / holder.game_count}")
-        output_file.write(f"Average skips per player: {holder.total_skips / holder.game_count}")
-        output_file.write(f"Average strikes per player: {holder.total_strikes / holder.game_count}")
+        output_file.write(f"Player count: {player_count}\n")
+        output_file.write(f"Game count: {holder.game_count}\n")
+        output_file.write(f"Games that ended from cards running out: {holder.out_of_cards}\n")
+        output_file.write(f"Games that ended from a player getting 12 CNT: {holder.winner}\n")
+        output_file.write(f"Average points per game: {holder.total_points / holder.game_count}\n")
+        output_file.write(f"Average CNTs per game: {holder.total_cnts / holder.game_count}\n")
+        output_file.write(f"Average game length: {holder.total_length / holder.game_count}min\n")
+        output_file.write(f"Average turns per game: {holder.total_turns / holder.game_count}\n")
+        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count / holder.game_count}\n")
+        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count / holder.game_count}\n")
+        output_file.write(f"Average sustainability loop length: {holder.total_loop_length / holder.game_count}\n")
+        output_file.write(f"Average skips per player: {holder.total_skips / holder.game_count}\n")
+        output_file.write(f"Average strikes per player: {holder.total_strikes / holder.game_count}\n")
         output_file.write("")
         output_file.write("")
         output_file.write("")
@@ -91,7 +91,7 @@ def process_data(game, reason, f, output_file, holder):
             player.points = player.cnts
 
     # Get player count. Not used in analysis as this info is included in game_id. It is used in below calcs though.
-    player_count = game.player_count
+    player_count = len(game.players)
 
     # Get game length in minutes
     length = game.turn * game.turn_length
@@ -133,7 +133,7 @@ def process_data(game, reason, f, output_file, holder):
     avg_skips = total_skips / player_count
 
     # Write above info to file
-    f.write(f"{game_id} {end_reason} {avg_points} {avg_cnt_count} {length} {turns} {avg_loop_card_count} {avg_loop_count} {avg_loop_length} {avg_strikes} {avg_skips}")
+    f.write(f"{game_id: <12}\t{end_reason: <22}\t{avg_points:.2f}\t\t{avg_cnt_count:.2f}\t\t{length}\t\t{turns}\t\t{avg_loop_card_count:.2f}\t\t{avg_loop_count:.2f}\t\t{avg_loop_length:.2f}\t\t{avg_strikes:.2f}\t\t{avg_skips:.2f}\n")
 
     # Send info to info compiler
     compile_data(False, output_file, holder, player_count, end_reason, avg_points, avg_cnt_count, length, turns, avg_loop_card_count,
@@ -155,7 +155,7 @@ def main():
             output = f"output{i}.txt"
             exists = path.isfile(output)
         f = open(output, "a")
-        f.write("Game_id    End_reason    Avg_points    Avg_cnts    Game_length    Game_turns    Avg_loop_cards    Avg_loop_skips    Avg_loop_length    Avg_strikes    Avg_skips")
+        f.write("Game_id\t\tEnd_reason\t\tAvg_points\tAvg_cnts\tGame_length\tGame_turns\tAvg_loop_cards\tAvg_loop_skips\tAvg_loop_length\tAvg_strikes\tAvg_skips\n")
         output_compiled = f"output{i}_compiled.txt"
         output_file = open(output_compiled, "a")
         # Determine the amount of games to be played per playercount.
@@ -167,21 +167,23 @@ def main():
             for n in range(0, game_count):
                 # Create Game object that will store info about the game.
                 game = Game()
-                game.id = f"game{i}-{n}"
+                game.id = f"game{i}-{n + 1}"
                 for j in range(0, player_count):
                     player = Player()
                     player.change_name(f"player{j + 1}")
                     game.add_player(player)
                 # Get file containing card info and create deck from it.
                 parse_file("cards.txt", game)
-                # End game if no cards are left - else continue.
                 winner = False
-                while True:
+                loop = True
+                while loop:
                     for player in game.players:
+                        # End game if no cards are left - else continue.
                         if game.card_count == 0:
                             # Print game end reason and start data processing for output
-                            print(f"Game {n} ended with {i} players. Cards ran out.")
+                            print(f"Game {n + 1} ended with {i} players. Cards ran out.")
                             process_data(game, "Out of cards", f, output_file, holder)
+                            loop = False
                             break
                         elif game.card_count > 0:
                             # Checks if current player's turn should be skipped
@@ -200,7 +202,7 @@ def main():
                                         # Data used in analysis
                                         player.loop_count += 1
                                         player.add_card(card)
-                                    sustainability_loop(player)
+                                    sustainability_loop(player, game_type)
                                 else:
                                     # Currently these functions do nothing as the logic of the bot has not been implemented.
                                     player.add_card(card)
@@ -273,12 +275,14 @@ def main():
                             winner = game.check_cnts()
                         if winner:
                             # Print game end reason and start data processing for output
-                            print(f"Game {n} ended with {i} players. Player reached 12 CNT.")
+                            print(f"Game {n + 1} ended with {i} players. Player reached 12 CNT.")
                             process_data(game, "Player reached 12 CNT", f, output_file, holder)
+                            loop = False
+                            break
                     game.turn += 1
-                    break
                 compile_data(False, output_file, holder, None, None, None, None, None, None, None, None, None, None, None)
         f.close()
+        output_file.close()
     # Game behaviour when game type is set to manual.
     elif game_type == "M":
         # Create Game object that will store info about the game.
@@ -307,7 +311,7 @@ def main():
                     if card == "Sustainability loop" or player.loop:
                         if player.loop and card != "Sustainability loop":
                             player.add_card(card)
-                        sustainability_loop(player)
+                        sustainability_loop(player, game_type)
                     else:
                         player.add_card(card)
                         if card == "Diabetes":

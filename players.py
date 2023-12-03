@@ -4,7 +4,6 @@ class Game:
         self.id = ""
         self.turn_length = 1
         self.players = []
-        self.player_count = len(self.players)
         self.replicates = []
         self.cards = []
         self.card_count = 0
