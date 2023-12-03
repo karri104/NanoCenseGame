@@ -1,3 +1,4 @@
+import time
 from os import system, path
 from players import Game, Player, Holder
 from cards import *
@@ -38,15 +39,15 @@ def compile_data(compile_now, output_file, holder, player_count, end_reason, avg
         output_file.write(f"Game count: {holder.game_count}\n")
         output_file.write(f"Games that ended from cards running out: {holder.out_of_cards}\n")
         output_file.write(f"Games that ended from a player getting 12 CNT: {holder.winner}\n")
-        output_file.write(f"Average points per game: {holder.total_points / holder.game_count:.2f}\n")
-        output_file.write(f"Average CNTs per game: {holder.total_cnts / holder.game_count:.2f}\n")
+        output_file.write(f"Average points per game: {holder.total_points / holder.game_count:.5f}\n")
+        output_file.write(f"Average CNTs per game: {holder.total_cnts / holder.game_count:.5f}\n")
         output_file.write(f"Average game length: {holder.total_length / holder.game_count}min\n")
         output_file.write(f"Average turns per game: {holder.total_turns / holder.game_count}\n")
-        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count / holder.game_count:.2f}\n")
-        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count / holder.game_count:.2f}\n")
-        output_file.write(f"Average sustainability loop length: {holder.total_loop_length / holder.game_count:.2f}\n")
-        output_file.write(f"Average skips per player: {holder.total_skips / holder.game_count:.2f}\n")
-        output_file.write(f"Average strikes per player: {holder.total_strikes / holder.game_count:.2f}\n")
+        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count / holder.game_count:.5f}\n")
+        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count / holder.game_count:.5f}\n")
+        output_file.write(f"Average sustainability loop length: {holder.total_loop_length / holder.game_count:.5f}\n")
+        output_file.write(f"Average skips per player: {holder.total_skips / holder.game_count:.5f}\n")
+        output_file.write(f"Average strikes per player: {holder.total_strikes / holder.game_count:.5f}\n")
         output_file.write("\n")
         output_file.write("\n")
         output_file.write("\n")
@@ -133,7 +134,8 @@ def process_data(game, reason, f, output_file, holder):
     avg_skips = total_skips / player_count
 
     # Write above info to file
-    f.write(f"{game_id: <12}\t{end_reason: <22}\t{avg_points:.2f}\t\t{avg_cnt_count:.2f}\t\t{length}\t\t{turns}\t\t{avg_loop_card_count:.2f}\t\t{avg_loop_count:.2f}\t\t{avg_loop_length:.2f}\t\t{avg_strikes:.2f}\t\t{avg_skips:.2f}\n")
+    # DISABLE THIS IF USING HIGH GAME COUNTS (10K GAME COUNT RESULTS IN 3MB FILESIZE)
+    #f.write(f"{game_id: <12}\t{end_reason: <22}\t{avg_points:.2f}\t\t{avg_cnt_count:.2f}\t\t{length}\t\t{turns}\t\t{avg_loop_card_count:.2f}\t\t{avg_loop_count:.2f}\t\t{avg_loop_length:.2f}\t\t{avg_strikes:.2f}\t\t{avg_skips:.2f}\n")
 
     # Send info to info compiler
     compile_data(False, output_file, holder, player_count, end_reason, avg_points, avg_cnt_count, length, turns, avg_loop_card_count,
@@ -160,6 +162,7 @@ def main():
         output_file = open(output_compiled, "a")
         # Determine the amount of games to be played per player amount.
         game_count = int(input("Give number of games to be simulated per playercount:\n"))
+        time1 = time.perf_counter()
         holder = Holder()
         holder.game_count = game_count
         for i in range(3, 7):
@@ -181,7 +184,7 @@ def main():
                         # End game if no cards are left - else continue.
                         if game.card_count == 0:
                             # Print game end reason and start data processing for output
-                            print(f"Game {n + 1} ended with {i} players. Cards ran out.")
+                            #print(f"Game {n + 1} ended with {i} players. Cards ran out.")
                             process_data(game, "Out of cards", f, output_file, holder)
                             loop = False
                             break
@@ -275,12 +278,13 @@ def main():
                             winner = game.check_cnts()
                         if winner:
                             # Print game end reason and start data processing for output
-                            print(f"Game {n + 1} ended with {i} players. Player reached 12 CNT.")
+                            #print(f"Game {n + 1} ended with {i} players. Player reached 12 CNT.")
                             process_data(game, "Player reached 12 CNT", f, output_file, holder)
                             loop = False
                             break
                     game.turn += 1
             compile_data(True, output_file, holder, player_count, None, None, None, None, None, None, None, None, None, None)
+            print(f"Calcs done for {i} players")
         f.close()
         output_file.close()
     # Game behaviour when game type is set to manual.
@@ -392,6 +396,9 @@ def main():
                 print("----------")
                 print(f"Cards left in the deck: {game.card_count}\n")
                 print("__________________________________________________________________________________________")
+    time2 = time.perf_counter()
+    runtime = time2 - time1
+    print(f"{runtime:.2f}s")
 
 
 if __name__ == "__main__":
