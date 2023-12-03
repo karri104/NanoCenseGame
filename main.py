@@ -38,15 +38,15 @@ def compile_data(compile_now, output_file, holder, player_count, end_reason, avg
         output_file.write(f"Game count: {holder.game_count}\n")
         output_file.write(f"Games that ended from cards running out: {holder.out_of_cards}\n")
         output_file.write(f"Games that ended from a player getting 12 CNT: {holder.winner}\n")
-        output_file.write(f"Average points per game: {holder.total_points:.2f}\n")
-        output_file.write(f"Average CNTs per game: {holder.total_cnts:.2f}\n")
-        output_file.write(f"Average game length: {holder.total_length}min\n")
-        output_file.write(f"Average turns per game: {holder.total_turns}\n")
-        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count:.2f}\n")
-        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count:.2f}\n")
-        output_file.write(f"Average sustainability loop length: {holder.total_loop_length:.2f}\n")
-        output_file.write(f"Average skips per player: {holder.total_skips:.2f}\n")
-        output_file.write(f"Average strikes per player: {holder.total_strikes:.2f}\n")
+        output_file.write(f"Average points per game: {holder.total_points / holder.game_count:.2f}\n")
+        output_file.write(f"Average CNTs per game: {holder.total_cnts / holder.game_count:.2f}\n")
+        output_file.write(f"Average game length: {holder.total_length / holder.game_count}min\n")
+        output_file.write(f"Average turns per game: {holder.total_turns / holder.game_count}\n")
+        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count / holder.game_count:.2f}\n")
+        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count / holder.game_count:.2f}\n")
+        output_file.write(f"Average sustainability loop length: {holder.total_loop_length / holder.game_count:.2f}\n")
+        output_file.write(f"Average skips per player: {holder.total_skips / holder.game_count:.2f}\n")
+        output_file.write(f"Average strikes per player: {holder.total_strikes / holder.game_count:.2f}\n")
         output_file.write("\n")
         output_file.write("\n")
         output_file.write("\n")
@@ -66,15 +66,15 @@ def compile_data(compile_now, output_file, holder, player_count, end_reason, avg
             holder.out_of_cards += 1
         elif end_reason == "Player reached 12 CNT":
             holder.winner += 1
-        holder.total_points = avg_points
-        holder.total_cnts = avg_cnt_count
-        holder.total_length = length
-        holder.total_turns = turns
-        holder.total_loop_card_count = avg_loop_card_count
-        holder.total_loop_count = avg_loop_count
-        holder.total_loop_length = avg_loop_length
-        holder.total_strikes = avg_strikes
-        holder.total_skips = avg_skips
+        holder.total_points += avg_points
+        holder.total_cnts += avg_cnt_count
+        holder.total_length += length
+        holder.total_turns += turns
+        holder.total_loop_card_count += avg_loop_card_count
+        holder.total_loop_count += avg_loop_count
+        holder.total_loop_length += avg_loop_length
+        holder.total_strikes += avg_strikes
+        holder.total_skips += avg_skips
 
 
 # Processes game data to be used in game analysis
