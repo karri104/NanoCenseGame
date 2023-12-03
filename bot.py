@@ -179,6 +179,76 @@ def structural_health_monitoring(game, player):
         else:
             if len(game.replicates) != 0:
                 for replicate in game.replicates:
+                    replicate.cnts += 2
+                game.replicates = []
+            for contestant in game.players:
+                if contestant != player:
+                    if not contestant.check_strike():
+                        contestant.cnts += 2
+                    else:
+                        contestant.cnts += int(2 / 2)
+
+
+def student_recruitment(game, player):
+    num = randint(1, 20)
+    # Always do option A
+    if num >= 11:
+        give_cnts(game, player, 3)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 2
+
+
+def recycling(player):
+    # Moral choice card - no strategy to be had
+    if not player.check_immunity():
+        player.cnts -= 1
+
+
+def material_choices(game, player):
+    # Moral choice card - no strategy to be had
+    give_cnts(game, player, 1)
+
+
+def twitter(game, player):
+    num = randint(1, 20)
+    # Always do option A
+    if num >= 10:
+        give_cnts(game, player, 3)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 3
+
+
+def greenwashing(game, player):
+    num = randint(1, 20)
+    # Always do option A
+    if num >= 10:
+        give_cnts(game, player, 3)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 3
+
+
+def temperature(game, player):
+    num = randint(1, 20)
+    best = find_best(game, player)
+    # Go for option A if others aren't close to winning or you would win with a success
+    if player.cnts >= 11 or best <= 8:
+        if num >= 10:
+            give_cnts(game, player, 1)
+        else:
+            if not player.check_immunity():
+                player.cnts -= 1
+    # Go for option B if others are close to winning
+    else:
+        if num >= 10:
+            for competitor in game.players:
+                if competitor != player:
+                    competitor.cnts -= 2
+        else:
+            if len(game.replicates) != 0:
+                for replicate in game.replicates:
                     replicate.cnts += 1
                 game.replicates = []
             for contestant in game.players:
@@ -188,68 +258,124 @@ def structural_health_monitoring(game, player):
                     else:
                         contestant.cnts += int(1 / 2)
 
-def student_recruitment(game, player):
-    pass
-
-
-def recycling(game, player):
-    pass
-
-
-def material_choices(game, player):
-    pass
-
-
-def twitter(game, player):
-    pass
-
-
-def greenwashing(game, player):
-    pass
-
-
-def temperature(game, player):
-    pass
-
 
 def increased_production(game, player):
-    pass
+    num = randint(1, 20)
+    # Always do option A unless the guaranteed +1 would win the game
+    # Potential future change would be to make it so it still goes for the riskier option if others have larger loops
+    # thus meaning they would win even if you get to 12 cnts first.
+    if player.cnts == 11:
+        give_cnts(game, player, 1)
+    if num >= 10:
+        give_cnts(game, player, 3)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 3
 
 
 def water_pollution(game, player):
-    pass
+    num = randint(1, 20)
+    # Always do option A
+    if num >= 10:
+        give_cnts(game, player, 3)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 3
 
 
 def cleaning(game, player):
-    pass
+    num = randint(1, 20)
+    best = find_best(game, player)
+    # Go for option B if early game or desperate or immune
+    if player.cnts <= 2 or player.immune or best >= 9:
+        if num >= 19:
+            give_cnts(game, player, 5)
+        else:
+            if not player.check_immunity():
+                player.cnts -= 3
+    # Option A if midgame and not immune
+    else:
+        if num < 10:
+            if not player.check_immunity():
+                player.cnts -= 1
 
 
 def aerosols(game, player):
-    pass
+    num = randint(1, 20)
+    # Always do option A
+    if num >= 10:
+        give_cnts(game, player, 1)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 1
 
 
 def enzymes(game, player):
-    pass
+    num = randint(1, 20)
+    best = find_best(game, player)
+    # Go for option B if early game or desperate or immune
+    if player.cnts <= 1 or player.immune or best >= 9:
+        if num >= 20:
+            give_cnts(game, player, 6)
+        else:
+            if not player.check_immunity():
+                player.cnts -= 2
+    # Option A if midgame and not immune
+    else:
+        if not player.check_immunity():
+            player.cnts -= 1
 
 
 def cnt_spray(game, player):
-    pass
+    num = randint(1, 20)
+    # Always do option A unless the guaranteed +1 would win the game
+    # Potential future change would be to make it so it still goes for the riskier option if others have larger loops
+    # thus meaning they would win even if you get to 12 cnts first.
+    if player.cnts == 11:
+        give_cnts(game, player, 1)
+    if num >= 10:
+        give_cnts(game, player, 2)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 3
 
 
 def cnt_length(game, player):
-    pass
+    # Always do option A
+    give_cnts(game, player, 2)
+    if not player.immune:
+        player.skips += 1
 
 
 def mycotoxins(game, player):
-    pass
+    num = randint(1, 20)
+    # Always do option A
+    if num >= 14:
+        give_cnts(game, player, 3)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 2
 
 
 def customization(game, player):
-    pass
+    # Always do option A
+    give_cnts(game, player, 2)
+    if not player.immune:
+        player.skips += 1
 
 
 def gender_equality(game, player):
-    pass
+    num = randint(1, 20)
+    # Always do option A unless the guaranteed +1 would win the game
+    # Potential future change would be to make it so it still goes for the riskier option if others have larger loops
+    # thus meaning they would win even if you get to 12 cnts first.
+    if player.cnts == 11:
+        give_cnts(game, player, 1)
+    if num >= 10:
+        give_cnts(game, player, 2)
+    else:
+        if not player.check_immunity():
+            player.cnts -= 2
 
 
 def bulletproof_vests(game, player):

@@ -281,8 +281,7 @@ def recycling(player):
 
 
 def material_choices(player):
-    if not player.check_immunity():
-        player.cnts -= 1
+    give_cnts(game, player, 1)
 
 
 def twitter(game, player):
@@ -372,12 +371,12 @@ def cleaning(game, player):
     choice = input("A or B?\n")
     num = randint(1, 20)
     if choice == "A":
-        if num < 4:
+        if num < 10:
             if not player.check_immunity():
                 player.cnts -= 1
     else:
         if num >= 19:
-            give_cnts(game, player, 1)
+            give_cnts(game, player, 5)
         else:
             if not player.check_immunity():
                 player.cnts -= 3
@@ -428,7 +427,8 @@ def cnt_length(game, player):
     choice = input("A or B?\n")
     if choice == "A":
         give_cnts(game, player, 2)
-        player.skips += 1
+        if not player.immune:
+            player.skips += 1
     else:
         if not player.check_immunity():
             player.cnts -= 1
@@ -451,7 +451,8 @@ def customization(game, player):
     choice = input("A or B?\n")
     if choice == "A":
         give_cnts(game, player, 2)
-        player.skips += 1
+        if not player.immune:
+            player.skips += 1
     else:
         if not player.check_immunity():
             player.cnts -= 1
