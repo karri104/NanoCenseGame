@@ -30,6 +30,8 @@ def union_strike(game, player):
         for contestant in game.players:
             if contestant != player:
                 contestant.strike += 2
+                # Data used in analysis
+                contestant.strik_count += 2
     # Go for safer option B else
     else:
         if num >= 10:
@@ -158,6 +160,8 @@ def terrorism(game, player):
         if not player.check_immunity():
             player.cnts -= 4
             player.skips += 2
+            # Data used in analysis
+            player.skip_count += 2
 
 
 def structural_health_monitoring(game, player):
@@ -345,6 +349,8 @@ def cnt_length(game, player):
     give_cnts(game, player, 2)
     if not player.immune:
         player.skips += 1
+        # Data used in analysis
+        player.skip_count += 1
 
 
 def mycotoxins(game, player):
@@ -362,6 +368,8 @@ def customization(game, player):
     give_cnts(game, player, 2)
     if not player.immune:
         player.skips += 1
+        # Data used in analysis
+        player.skip_count += 1
 
 
 def gender_equality(game, player):

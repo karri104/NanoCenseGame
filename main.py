@@ -1,7 +1,5 @@
-import sys
-from random import randint
-import os
-from players import Game, Player
+from os import system, path
+from players import Game, Player, Holder
 from cards import *
 import bot
 
@@ -21,6 +19,7 @@ def parse_file(filename, game):
             idea = f.readline()
             duplicates = f.readline()
     game.card_count = len(game.cards)
+    f.close()
 
 
 # Picks a random card from the deck
@@ -31,125 +30,259 @@ def pick_card(game):
     game.card_count -= 1
     return card
 
+
+# Compiles data into more human readable form
+def compile_data(compile_now, output_file, holder, player_count, end_reason, avg_points, avg_cnt_count, length, turns, avg_loop_card_count, avg_loop_count, avg_loop_length, avg_strikes, avg_skips):
+    if compile_now:
+        output_file.write(f"Player count: {player_count}")
+        output_file.write(f"Game count: {holder.game_count}")
+        output_file.write(f"Games that ended from cards running out: {holder.out_of_cards}")
+        output_file.write(f"Games that ended from a player getting 12 CNT: {holder.winner}")
+        output_file.write(f"Average points per game: {holder.total_points / holder.game_count}")
+        output_file.write(f"Average CNTs per game: {holder.total_cnts / holder.game_count}")
+        output_file.write(f"Average game length: {holder.total_length / holder.game_count}min")
+        output_file.write(f"Average turns per game: {holder.total_turns / holder.game_count}")
+        output_file.write(f"Average sustainability loop cards per player: {holder.total_loop_card_count / holder.game_count}")
+        output_file.write(f"Average turns skipped from failed sustainability loop formation: {holder.total_loop_count / holder.game_count}")
+        output_file.write(f"Average sustainability loop length: {holder.total_loop_length / holder.game_count}")
+        output_file.write(f"Average skips per player: {holder.total_skips / holder.game_count}")
+        output_file.write(f"Average strikes per player: {holder.total_strikes / holder.game_count}")
+        output_file.write("")
+        output_file.write("")
+        output_file.write("")
+        holder.total_points = 0
+        holder.total_cnts = 0
+        holder.total_length = 0
+        holder.total_turns = 0
+        holder.total_loop_card_count = 0
+        holder.total_loop_count = 0
+        holder.total_loop_length = 0
+        holder.total_strikes = 0
+        holder.total_skips = 0
+        holder.winner = 0
+        holder.out_of_cards = 0
+    else:
+        if end_reason == "Out of cards":
+            holder.out_of_cards += 1
+        elif end_reason == "Player reached 12 CNT":
+            holder.winner += 1
+        holder.total_points = avg_points
+        holder.total_cnts = avg_cnt_count
+        holder.total_length = length
+        holder.total_turns = turns
+        holder.total_loop_card_count = avg_loop_card_count
+        holder.total_loop_count = avg_loop_count
+        holder.total_loop_length = avg_loop_length
+        holder.total_strikes = avg_strikes
+        holder.total_skips = avg_skips
+
+
+# Processes game data to be used in game analysis
+def process_data(game, reason, f, output_file, holder):
+    # Get game id
+    game_id = game.id
+
+    # Calculate points for each player
+    for player in game.players:
+        if len(player.sustainability_loop) >= 4:
+            length = len(player.sustainability_loop) - 4
+            player.points = player.cnts + 1 + length * 0.5
+        else:
+            player.points = player.cnts
+
+    # Get player count. Not used in analysis as this info is included in game_id. It is used in below calcs though.
+    player_count = game.player_count
+
+    # Get game length in minutes
+    length = game.turn * game.turn_length
+
+    # Get number of turns in the game
+    turns = game.turn
+
+    # Get game end reason
+    end_reason = reason
+
+    # Get average cnts
+    # Get average sustainability loop cards obtained
+    # Get average turns skipped by failing to create a sustainability loop
+    # Get average sustainability loop length
+    # Get average points
+    # Get average strikes
+    # Get average skips
+    total_cnt_count = 0
+    total_loop_card_count = 0
+    total_loop_count = 0
+    total_loop_length = 0
+    total_points = 0
+    total_strikes = 0
+    total_skips = 0
+    for player in game.players:
+        total_cnt_count += player.cnts
+        total_loop_card_count += player.loop_card_count
+        total_loop_count += player.loop_count
+        total_loop_length += len(player.sustainability_loop)
+        total_points += player.points
+        total_strikes += player.strike_count
+        total_skips += player.skip_count
+    avg_cnt_count = total_cnt_count / player_count
+    avg_loop_card_count = total_loop_card_count / player_count
+    avg_loop_count = total_loop_count / player_count
+    avg_loop_length = total_loop_length / player_count
+    avg_points = total_points / player_count
+    avg_strikes = total_strikes / player_count
+    avg_skips = total_skips / player_count
+
+    # Write above info to file
+    f.write(f"{game_id} {end_reason} {avg_points} {avg_cnt_count} {length} {turns} {avg_loop_card_count} {avg_loop_count} {avg_loop_length} {avg_strikes} {avg_skips}")
+
+    # Send info to info compiler
+    compile_data(False, output_file, holder, player_count, end_reason, avg_points, avg_cnt_count, length, turns, avg_loop_card_count,
+                 avg_loop_count, avg_loop_length, avg_strikes, avg_skips)
+
+
 # Main
 def main():
-    # Create Game object that will store info about the game.
-    game = Game()
-    # Determine if game will be played automatically by a WIP bot or by hand using command line.
+    # Determine if game will be played automatically by a bot or by hand using command line.
     game_type = input("Is the game manual or automatic? M/A:\n")
     # Game behaviour when game type is set to automatic.
     if game_type == "A":
-        # Determine amount of players and create Player objects for each.
-        player_count = int(input("Give number of players:\n"))
-        for i in range(0, player_count):
-            player = Player()
-            player.change_name(f"player{i + 1}")
-            game.add_player(player)
-        # Get file containing card info and create deck from it.
-        filename = input("Give name of file containing card info:\n")
-        parse_file(filename, game)
-        # End game if no cards are left - else continue.
-        for player in game.players:
-            if game.card_count == 0:
-                sys.exit("Game Over. Cards ran out.")
-            elif game.card_count > 0:
-                # Checks if current player's turn should be skipped
-                if player.skips == 0:
-                    # Checks for any active replicates for cnt calculation
-                    game.check_replicates()
-                    print("Current player:", player.name)
-                    print("----------")
-                    # Pick card and execute corresponding function
-                    card = pick_card(game)
-                    print("Card:", card)
-                    # Sustainability loop is separated from everything else as it has a fundamentally different effect
-                    # on the game and is not added to a player's deck.
-                    if card == "Sustainability loop" or player.loop:
-                        if player.loop:
-                            player.add_card(card)
-                        sustainability_loop(player)
-                    else:
-                        # Currently these functions do nothing as the logic of the bot has not been implemented.
-                        player.add_card(card)
-                        if card == "Diabetes":
-                            bot.diabetes(game, player)
-                        if card == "Union strike":
-                            bot.union_strike(game, player)
-                        if card == "Carcinogenicity":
-                            bot.carcinogenicity(game, player)
-                        if card == "007":
-                            bot.bond(game, player)
-                        if card == "IPR":
-                            bot.ipr(game, player)
-                        if card == "Regulations":
-                            bot.regulations(game, player)
-                        if card == "Sweat analysis":
-                            bot.sweat_analysis(game, player)
-                        if card == "Critical flaw":
-                            bot.critical_flaw(player)
-                        if card == "Terrorism":
-                            bot.terrorism(game, player)
-                        if card == "Structural health monitoring":
-                            bot.structural_health_monitoring(game, player)
-                        if card == "Student recruitment":
-                            bot.student_recruitment(game, player)
-                        if card == "Recycling":
-                            bot.recycling(game, player)
-                        if card == "Material choices":
-                            bot.material_choices(game, player)
-                        if card == "X (Twitter)":
-                            bot.twitter(game, player)
-                        if card == "Greenwashing":
-                            bot.greenwashing(game, player)
-                        if card == "Temperature":
-                            bot.temperature(game, player)
-                        if card == "Increased production":
-                            bot.increased_production(game, player)
-                        if card == "Water pollution":
-                            bot.water_pollution(game, player)
-                        if card == "Cleaning":
-                            bot.cleaning(game, player)
-                        if card == "Aerosols":
-                            bot.aerosols(game, player)
-                        if card == "Enzymes":
-                            bot.enzymes(game, player)
-                        if card == "CNT Spray":
-                            bot.cnt_spray(game, player)
-                        if card == "CNT Length":
-                            bot.cnt_length(game, player)
-                        if card == "Mycotoxins":
-                            bot.mycotoxins(game, player)
-                        if card == "Customization":
-                            bot.customization(game, player)
-                        if card == "Gender equality":
-                            bot.gender_equality(game, player)
-                        if card == "Bulletproof vests":
-                            bot.bulletproof_vests(game, player)
-                        if card == "Fossil fuels":
-                            bot.fossil_fuels(game, player)
-                        if card == "Production location":
-                            bot.production_location(game, player)
-                        if card == "Budget":
-                            bot.budget(game, player)
-                else:
-                    # If a player's turn was skipped, reduce remaining skips by one and inform players.
-                    player.skips -= 1
-                    print("----------")
-                    print(f"Your next {player.skips} turns will be skipped")
-                    print("----------")
-                # Reduce remaining turns with strike if player has strike active.
-                if player.strike:
-                    player.strike -= 1
-                # Resets player's cnts to 0 if they are negative
-                game.check_cnts()
-                # Give information about a player's game state
-                print(f"Player {player.name} CNTs:", player.cnts)
-                print(f"Discard_pile for {player.name}:\n{player.discard_pile}")
-                print(f"Sustainability loop for {player.name}:\n{player.sustainability_loop}")
-                print(f"Cards left in the deck: {game.card_count}\n")
-                print("__________________________________________________________________________________________")
+        # Create output file
+        output = "output.txt"
+        exists = True
+        i = 0
+        while exists:
+            i += 1
+            output = f"output{i}.txt"
+            exists = path.isfile(output)
+        f = open(output, "a")
+        f.write("Game_id    End_reason    Avg_points    Avg_cnts    Game_length    Game_turns    Avg_loop_cards    Avg_loop_skips    Avg_loop_length    Avg_strikes    Avg_skips")
+        output_compiled = f"output{i}_compiled.txt"
+        output_file = open(output_compiled, "a")
+        # Determine the amount of games to be played per playercount.
+        game_count = int(input("Give number of games to be simulated per playercount:\n"))
+        holder = Holder()
+        holder.game_count = game_count
+        for i in range(3, 7):
+            player_count = i
+            for n in range(0, game_count):
+                # Create Game object that will store info about the game.
+                game = Game()
+                game.id = f"game{i}-{n}"
+                for j in range(0, player_count):
+                    player = Player()
+                    player.change_name(f"player{j + 1}")
+                    game.add_player(player)
+                # Get file containing card info and create deck from it.
+                parse_file("cards.txt", game)
+                # End game if no cards are left - else continue.
+                winner = False
+                while True:
+                    for player in game.players:
+                        if game.card_count == 0:
+                            # Print game end reason and start data processing for output
+                            print(f"Game {n} ended with {i} players. Cards ran out.")
+                            process_data(game, "Out of cards", f, output_file, holder)
+                            break
+                        elif game.card_count > 0:
+                            # Checks if current player's turn should be skipped
+                            if player.skips == 0:
+                                # Checks for any active replicates for cnt calculation
+                                game.check_replicates()
+                                # Pick card and execute corresponding function
+                                card = pick_card(game)
+                                # Sustainability loop is separated from everything else as it has a fundamentally different
+                                # effect on the game and is not added to a player's deck.
+                                if card == "Sustainability loop" or player.loop:
+                                    if card == "Sustainability loop":
+                                        # Data used in analysis
+                                        player.loop_card_count += 1
+                                    if player.loop:
+                                        # Data used in analysis
+                                        player.loop_count += 1
+                                        player.add_card(card)
+                                    sustainability_loop(player)
+                                else:
+                                    # Currently these functions do nothing as the logic of the bot has not been implemented.
+                                    player.add_card(card)
+                                    if card == "Diabetes":
+                                        bot.diabetes(game, player)
+                                    if card == "Union strike":
+                                        bot.union_strike(game, player)
+                                    if card == "Carcinogenicity":
+                                        bot.carcinogenicity(game, player)
+                                    if card == "007":
+                                        bot.bond(game, player)
+                                    if card == "IPR":
+                                        bot.ipr(game, player)
+                                    if card == "Regulations":
+                                        bot.regulations(game, player)
+                                    if card == "Sweat analysis":
+                                        bot.sweat_analysis(game, player)
+                                    if card == "Critical flaw":
+                                        bot.critical_flaw(player)
+                                    if card == "Terrorism":
+                                        bot.terrorism(game, player)
+                                    if card == "Structural health monitoring":
+                                        bot.structural_health_monitoring(game, player)
+                                    if card == "Student recruitment":
+                                        bot.student_recruitment(game, player)
+                                    if card == "Recycling":
+                                        bot.recycling(player)
+                                    if card == "Material choices":
+                                        bot.material_choices(game, player)
+                                    if card == "X (Twitter)":
+                                        bot.twitter(game, player)
+                                    if card == "Greenwashing":
+                                        bot.greenwashing(game, player)
+                                    if card == "Temperature":
+                                        bot.temperature(game, player)
+                                    if card == "Increased production":
+                                        bot.increased_production(game, player)
+                                    if card == "Water pollution":
+                                        bot.water_pollution(game, player)
+                                    if card == "Cleaning":
+                                        bot.cleaning(game, player)
+                                    if card == "Aerosols":
+                                        bot.aerosols(game, player)
+                                    if card == "Enzymes":
+                                        bot.enzymes(game, player)
+                                    if card == "CNT Spray":
+                                        bot.cnt_spray(game, player)
+                                    if card == "CNT Length":
+                                        bot.cnt_length(game, player)
+                                    if card == "Mycotoxins":
+                                        bot.mycotoxins(game, player)
+                                    if card == "Customization":
+                                        bot.customization(game, player)
+                                    if card == "Gender equality":
+                                        bot.gender_equality(game, player)
+                                    if card == "Bulletproof vests":
+                                        bot.bulletproof_vests(game, player)
+                                    if card == "Fossil fuels":
+                                        bot.fossil_fuels(game, player)
+                                    if card == "Production location":
+                                        bot.production_location(game, player)
+                                    if card == "Budget":
+                                        bot.budget(game, player)
+                            else:
+                                # If a player's turn was skipped, reduce remaining skips by one.
+                                player.skips -= 1
+                            if player.strike:
+                                player.strike -= 1
+                            # Resets player's cnts to 0 if they are negative
+                            winner = game.check_cnts()
+                        if winner:
+                            # Print game end reason and start data processing for output
+                            print(f"Game {n} ended with {i} players. Player reached 12 CNT.")
+                            process_data(game, "Player reached 12 CNT", f, output_file, holder)
+                    game.turn += 1
+                    break
+                compile_data(False, output_file, holder, None, None, None, None, None, None, None, None, None, None, None)
+        f.close()
     # Game behaviour when game type is set to manual.
     elif game_type == "M":
+        # Create Game object that will store info about the game.
+        game = Game()
         # Get player information one by one and create Player objects.
         name = input("Give player name. Continue with empty line:\n")
         while name != "":
@@ -251,10 +384,11 @@ def main():
                 print("----------")
                 # Clear command line between turns to keep it clean
                 input("Press enter to hide drawn card.\n")
-                os.system('cls')
+                system('cls')
                 print("----------")
                 print(f"Cards left in the deck: {game.card_count}\n")
                 print("__________________________________________________________________________________________")
+
 
 if __name__ == "__main__":
     main()

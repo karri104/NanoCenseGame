@@ -23,6 +23,7 @@ def give_cnts(game, player, cnts):
 
 
 # Randomly creates sustainability loops depending on current discard_pile size.
+# Can currently only create one sustainability loop even though in the actual game you can create multiple
 def sustainability_loop(player):
     # Generate random number to be used in calculating successes
     num = randint(1, 10000)
